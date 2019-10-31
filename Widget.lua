@@ -126,7 +126,18 @@ function ReturnBuffTracker:CreateInfoBar(text, r, g, b)
         GameTooltip:Hide()
     end)
     
-    theBar:SetScript("OnMouseDown", function(self) ReturnBuffTracker.mainFrame:StartMoving() end)
+    theBar:SetScript("OnMouseDown", function(self)
+        if IsShiftKeyDown() and self.tooltip then
+          local msg = ""
+          for k, v in ipairs(self.tooltip) do
+            msg = msg .. v
+            end
+          SendChatMessage(msg ,"RAID");
+        else
+          
+          ReturnBuffTracker.mainFrame:StartMoving()
+        end
+        end)
     theBar:SetScript("OnMouseUp", function(self)
         ReturnBuffTracker.mainFrame:StopMovingOrSizing()
         if not ReturnBuffTracker.db.profile.position then
